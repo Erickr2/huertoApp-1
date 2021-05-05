@@ -8,8 +8,8 @@ const Humedad = db.define('Humedad', {
 		primaryKey: true,
 	},
 	hum: {
-        type: Sequelize.FLOAT,
-    }
+		type: Sequelize.FLOAT,
+	},
 });
 
 module.exports = Humedad;

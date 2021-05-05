@@ -20,10 +20,10 @@ const Cosecha = db.define('Cosecha', {
 	id_reg: {
 		type: Sequelize.INTEGER(11),
 		references: {
-            model: 'Registro',
-            key: 'id_reg',
-        }
-	}
+			model: 'Registro',
+			key: 'id_reg',
+		},
+	},
 });
 
 // Cosecha.hasMany(Registro, {
