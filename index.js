@@ -1,22 +1,20 @@
 const express = require('express');
 const app = express();
 const db = require('./config/db');
+const routes = require('./routes');
+const bodyParser = require('body-parser');
+
+db.sync()
+	.then( () => console.log('Conectado a la BD')) //cuando es exitosa la rutina
+	.catch( error => console.log('Este es es el error: ', error)) //cuando hay un error en la rutina
 
 
-db.connect(() => console.log('Se ha conectado a la BD'));
+app.use(bodyParser.json());
 
-
-db.execute(
-    'SELECT * FROM `altura` ',
-    function(err, results, fields) {
-      console.log(results);
-      console.log(fields);
-    }
-);
-
+app.use('/', routes());
 
 const port = 4000;
 
 app.listen(port, () => {
-    console.log('El servidor esta corriendo por el puerto: ', port);
+	console.log('El servidor esta corriendo por el puerto: ', port);
 });
