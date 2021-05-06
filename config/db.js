@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-const db = new Sequelize('huertoApp', 'root', 'Grhzu92E', {
+const db = new Sequelize('huertoAppJS', 'root', 'Grhzu92E', {
 	host: 'localhost',
 	dialect: 'mysql',
 	port: '3306',
