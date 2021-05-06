@@ -8,6 +8,9 @@ const Cosecha = db.define('Cosecha', {
 		autoIncrement: true,
 		primaryKey: true,
 	},
+	nombre: {
+		type: Sequelize.STRING(30),
+	},
 	fec_ini: {
 		type: Sequelize.DATE,
 	},
@@ -17,22 +20,12 @@ const Cosecha = db.define('Cosecha', {
 	no_plant: {
 		type: Sequelize.INTEGER(11),
 	},
-	id_reg: {
-		type: Sequelize.INTEGER(11),
-		references: {
-			model: 'Registro',
-			key: 'id_reg',
-		},
-	},
 });
 
-// Cosecha.hasMany(Registro, {
-//     foreignKey: {
-//         name: 'id_reg'
-//     }
-// });
-Cosecha.belongsTo(Registro);
-
-// Cosecha.Registro = Cosecha.belongsTo(Registro);
+Registro.belongsTo(Cosecha, {
+	foreignKey: 'id_cos',
+	onDelete: 'NO ACTION',
+	onUpdate: 'NO ACTION',
+});
 
 module.exports = Cosecha;

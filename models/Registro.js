@@ -13,52 +13,22 @@ const Registro = db.define('Registro', {
 	fecha: {
 		type: Sequelize.DATE,
 	},
-	id_temp: {
-		type: Sequelize.INTEGER(11),
-		references: {
-			model: 'Temperatura',
-			key: 'id_temp',
-		},
-	},
-	id_hum: {
-		type: Sequelize.INTEGER(11),
-		references: {
-			model: 'Humedad',
-			key: 'id_hum',
-		},
-	},
-	id_alt: {
-		type: Sequelize.INTEGER(11),
-		references: {
-			model: 'Altura',
-			key: 'id_alt',
-		},
-	},
 });
 
-// Registro.hasOne(Temperatura, {
-//     foreignKey: {
-//         name: 'id_temp'
-//     }
-// });
-
-// Registro.hasOne(Humedad, {
-//     foreignKey: {
-//         name: 'id_hum'
-//     }
-// });
-
-// Registro.hasOne(Altura, {
-//     foreignKey: {
-//         name: 'id_alt'
-//     }
-// });
-
-Registro.belongsTo(Temperatura);
-Registro.belongsTo(Humedad);
-Registro.belongsTo(Altura);
-// Registro.Temperatura = Registro.belongsTo(Temperatura);
-// Registro.Humedad = Registro.belongsTo(Humedad);
-// Registro.Altura = Registro.belongsTo(Altura);
+Registro.belongsTo(Temperatura, {
+	foreignKey: {
+		name: 'id_temp',
+	},
+});
+Registro.belongsTo(Humedad, {
+	foreignKey: {
+		name: 'id_hum',
+	},
+});
+Registro.belongsTo(Altura, {
+	foreignKey: {
+		name: 'id_alt',
+	},
+});
 
 module.exports = Registro;
