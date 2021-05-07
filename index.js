@@ -4,8 +4,11 @@ const db = require('./config/db');
 const routes = require('./routes');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
+const cors = require('cors');
 
 app.use(morgan('dev')); //mostrar en consola las peticiones y codigos de respuesta HTTP
+
+app.use(cors());
 
 app.use(bodyParser.json()); //leer solicitudes en formato JSON
 
