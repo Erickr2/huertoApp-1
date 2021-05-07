@@ -24,8 +24,8 @@ const Cosecha = db.define('Cosecha', {
 
 Registro.belongsTo(Cosecha, {
 	foreignKey: 'id_cos',
-	onDelete: 'NO ACTION',
-	onUpdate: 'NO ACTION',
+	onDelete: 'CASCADE',
+	onUpdate: 'CASCADE',
 });
 
 module.exports = Cosecha;
