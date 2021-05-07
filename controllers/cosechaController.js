@@ -3,7 +3,7 @@ const Cosecha = require('../models/Cosecha');
 const { viewError } = require('../helpers/helper');
 
 /*
- *		Cosecha  {	POST, GET, GET (by id), PUT, DELETE	}
+ *		Cosecha  {	POST, GET (all), GET (by id), PUT, DELETE	}
  */
 
 exports.insertHarvest = async (req, res) => {
@@ -22,7 +22,7 @@ exports.insertHarvest = async (req, res) => {
 
 		if (nameHarvest.length !== 0) {
 			res.status(200).json({
-				msg: 'El nombre ingresado ya existe, captura uno diferente',
+				error: 'El nombre ingresado ya existe, captura uno diferente',
 			});
 			return;
 		}
@@ -67,11 +67,11 @@ exports.getAllHarvest = async (req, res) => {
 	try {
 		//consulta SQL para obtener todas las cosechas
 		const allHarvest = await Cosecha.sequelize.query(
-			'SELECT * FROM Cosechas',
+			'SELECT id_cos, nombre, DATE_FORMAT(fec_ini, "%d/%m/%Y") AS fec_ini, DATE_FORMAT(fec_fin, "%d/%m/%Y") AS fec_fin, no_plant  FROM Cosechas',
 			{ type: QueryTypes.SELECT },
 		);
 
-		res.status(200).json({ 'cosechas: ': allHarvest });
+		res.status(200).json({ cosechas: allHarvest });
 	} catch (error) {
 		viewError(res, error);
 	}
@@ -94,7 +94,7 @@ exports.getHarvestById = async (req, res) => {
 		//si no trajo resultados la consulta
 		if (harvest.length === 0) {
 			res.status(200).json({
-				msg: 'El id de cosecha de la solicitud, no existe.',
+				error: 'El id de cosecha de la solicitud, no existe.',
 			});
 			return;
 		}
@@ -124,7 +124,7 @@ exports.updateHarvest = async (req, res) => {
 		//validar que el nombre a actualizar este disponible
 		if (nameHarvest.length !== 0) {
 			res.status(200).json({
-				msg: 'El nombre ingresado ya existe, captura uno diferente',
+				error: 'El nombre ingresado ya existe, captura uno diferente',
 			});
 			return;
 		}
@@ -161,7 +161,7 @@ exports.deleteHarvestById = async (req, res) => {
 
 	try {
 		// SQL para eliminar el registro de cosecha
-		const destroy = await Cosecha.sequelize.query(
+		await Cosecha.sequelize.query(
 			'DELETE FROM Cosechas WHERE id_cos = $id',
 			{
 				bind: { id },
@@ -169,7 +169,15 @@ exports.deleteHarvestById = async (req, res) => {
 			},
 		);
 
-		res.status(200).json({ msg: 'Cosecha eliminada correctamente' });
+		await Registros.sequelize.query(
+			'DELETE FROM Registros WHERE id_cos = $id',
+			{
+				bind: { id },
+				type: QueryTypes.DELETE,
+			},
+		);
+
+		res.status(200).json({ error: 'Cosecha eliminada correctamente' });
 	} catch (error) {
 		viewError(res, error);
 	}

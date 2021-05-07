@@ -30,11 +30,11 @@ exports.detailOfRecordsPerDay = async (req, res) => {
         //si no trajo resultados la consulta
 		if (recordsReport.length === 0) {
 			res.status(200).json({
-				msg: 'El id de cosecha de la solicitud, no existe.',
+				error: 'El id de cosecha de la solicitud, no existe.',
 			});
 			return;
 		}
-        res.status(200).json({ 'reporte: ': recordsReport });
+        res.status(200).json({ reporte: recordsReport });
     } catch (error) {
         viewError(res, error);
     }
@@ -48,13 +48,13 @@ exports.harvestDetail = async (req, res) => {
         const harvestReport = await Cosecha.sequelize.query(
             'SELECT '
             +'   a.nombre, '
-            +'   DATE_FORMAT(a.fec_ini, "%d/%m/%Y") AS "fecha inicio",'
-            +'   DATE_FORMAT(a.fec_fin, "%d/%m/%Y") AS "fecha fin", '
-            +'   a.no_plant AS "# plantas", '
-            +'   COUNT(b.id_cos) AS "registros realizados", '
-            +'   AVG(c.temp) AS "temperatura promedio", '
-            +'   AVG(d.hum) AS "humedad promedio", '
-            +'   MAX(e.alt) AS "altura maxima" '
+            +'   DATE_FORMAT(a.fec_ini, "%d/%m/%Y") AS "fechaIni",'
+            +'   DATE_FORMAT(a.fec_fin, "%d/%m/%Y") AS "fechaFin", '
+            +'   a.no_plant AS "noPlantas", '
+            +'   COUNT(b.id_cos) AS "registrosRealizados", '
+            +'   AVG(c.temp) AS "temperaturaPromedio", '
+            +'   AVG(d.hum) AS "humedadPromedio", '
+            +'   MAX(e.alt) AS "alturaMaxima" '
             +'FROM '
             +'    Cosechas AS a '
             +'    LEFT JOIN Registros AS b ON b.id_cos = a.id_cos '
@@ -76,11 +76,11 @@ exports.harvestDetail = async (req, res) => {
         //si no trajo resultados la consulta
 		if (harvestReport.length === 0) {
 			res.status(200).json({
-				msg: 'El id de cosecha de la solicitud, no existe.',
+				error: 'El id de cosecha de la solicitud, no existe.',
 			});
 			return;
 		}
-        res.status(200).json({ 'reporte: ': harvestReport });
+        res.status(200).json({ reporte: harvestReport });
     } catch (error) {
         viewError(res, error);
     }
