@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const cors = require('cors');
 
-require('dotenv').config({path: '.env'})
+require('dotenv').config({ path: '.env' });
 
 app.use(morgan('dev')); //mostrar en consola las peticiones y codigos de respuesta HTTP
 
@@ -14,9 +14,9 @@ app.use(cors()); //permite tener comunicacion con cualquier otro server
 
 app.use(bodyParser.json()); //leer solicitudes en formato JSON
 
-app.use('/', routes()); //utilizar nuestrar rutas
+/* app.use('/', routes()); */ //utilizar nuestrar rutas
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8080;
 
 //inicializa el web-server y dentro tambien inicializa la conexión a la BD
 app.listen(port, () => {
