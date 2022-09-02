@@ -1,7 +1,5 @@
-const sequelize = require('sequelize');
 const Sequelize = require('sequelize');
 const db = require('../config/db');
-
 
 const Usuario = db.define('Usuario', {
 	id_usuario: {
@@ -9,12 +7,16 @@ const Usuario = db.define('Usuario', {
 		autoIncrement: true,
 		primaryKey: true,
 	},
-	email:{
-        type: Sequelize.STRING(20)
-    },
-    password: {
-        type: Sequelize.STRING(20)
-    }
+	nombre: {
+		type: Sequelize.STRING(50),
+		allowNull: false,
+	},
+	email: {
+		type: Sequelize.STRING(20),
+	},
+	password: {
+		type: Sequelize.STRING(200),
+	},
 });
 
 module.exports = Usuario;

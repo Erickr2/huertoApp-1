@@ -9,30 +9,24 @@ const Orden = db.define('Orden', {
 		autoIncrement: true,
 		primaryKey: true,
 	},
-	id_usuario:{
-        type: Sequelize.STRING(20)
-    },
-    id_producto: {
-        type: Sequelize.STRING(20)
-    },
-    cantidad: {
-        type: Sequelize.INTEGER(5)
-    },
-    total: {
-        type: Sequelize.INTEGER(20)
-    }
+	fecha: {
+		type: Sequelize.STRING(20),
+	},
+	total: {
+		type: Sequelize.INTEGER(20),
+	},
 });
+
+// on delete no action on update cascade
 
 Orden.belongsTo(Usuario, {
-    foreignKey: {
-        name: 'id_usuario',
-    },
+	onUpdate: 'CASCADE',
+	onDelete: 'NO ACTION',
 });
 
-Orden.belongsTo(Producto, {
-    foreignKey: {
-        name: 'id_producto',
-    },
+Orden.hasMany(Producto, {
+	onUpdate: 'CASCADE',
+	onDelete: 'NO ACTION',
 });
 
-module.exports = Orden; 
+module.exports = Orden;

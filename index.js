@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const db = require('./config/db');
-const routes = require('./routes');
+const routes = require('./routes/index');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const cors = require('cors');
@@ -14,9 +14,12 @@ app.use(cors()); //permite tener comunicacion con cualquier otro server
 
 app.use(bodyParser.json()); //leer solicitudes en formato JSON
 
-/* app.use('/', routes()); */ //utilizar nuestrar rutas
+app.use('/', routes()); //utilizar nuestrar rutas
 
 const port = process.env.PORT || 8080;
+
+//enable read body data
+app.use(express.json());
 
 //inicializa el web-server y dentro tambien inicializa la conexión a la BD
 app.listen(port, () => {
