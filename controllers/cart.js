@@ -43,13 +43,14 @@ exports.createCart = async (req, res) => {
 
 		// insert products
 		for (let i = 0; i < productos.length; i++) {
-			const { nombre, precio } = productos[i];
+			const { nombre, precio, cantidad } = productos[i];
 
 			// insert product
 			const insertProduct = await Producto.create({
 				OrdenIdOrden: order.id_orden,
 				nombre: nombre,
 				precio,
+				cantidad: cantidad,
 			});
 
 			insertProducts.push(insertProduct);
@@ -86,6 +87,21 @@ exports.getOrdersByUser = async (req, res) => {
 		if (!findUser) {
 			return res.status(400).json({ message: 'User does not exist' });
 		}
+		// sql para obtener las ordenes de un usuario
+		const sqlOrderDetail = `SELECT * FROM ordens o INNER JOIN usuarios u ON o.UsuarioIdUsuario = u.id_usuario WHERE u.id_usuario = ${id}`;
+
+		// ejecutar sql
+		const OrderDetail = await Orden.sequelize.query(sqlOrderDetail, {
+			type: sequelize.QueryTypes.SELECT,
+		});
+
+		if (OrderDetail.length === 0) {
+			return res
+				.status(400)
+				.json({ message: 'User does not have orders' });
+		}
+
+		const { id_orden, fecha, total } = OrderDetail[0];
 
 		// SQL para obtener las ordenes y productos de un usuario
 		const sql = `SELECT * FROM ordens o INNER JOIN peoductos p ON o.id_orden = p.OrdenIdOrden WHERE o.UsuarioIdUsuario = ${id}`;
@@ -103,6 +119,11 @@ exports.getOrdersByUser = async (req, res) => {
 
 		// return orders
 		res.json({
+			detail: {
+				id_orden,
+				fecha,
+				total,
+			},
 			orders,
 		});
 	} catch (error) {

@@ -16,6 +16,9 @@ const Producto = db.define('Peoducto', {
 	fecha: {
 		type: Sequelize.STRING(20),
 	},
+	cantidad: {
+		type: Sequelize.INTEGER(20),
+	},
 });
 
 module.exports = Producto;
